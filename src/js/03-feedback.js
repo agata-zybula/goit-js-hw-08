@@ -17,13 +17,15 @@ form.addEventListener('input', throttle(() => {
       email: formEmail.value,
       message: formMessage.value,
     };
-    localStorage.setItem('feedback-form-state', JSON.stringify(someData));
+    localStorage.setItem('feedback-form-state', JSON.stringify(someData)); //ustawienie nazwy klucza w localStorage, przeksztalcenie danych tj. email i message na stringi
   }, 500)
 );
 
-form.addEventListener('submit', e => { //jak klikne submit, to wyczysci sie formularz i localstorage, po przeladowaniu strony bede miec pusty formularz, bo localstorage zostalo wyczyszczone
+form.addEventListener('submit', e => {
+  //jak klikne submit, to wyczysci sie formularz i localstorage, po przeladowaniu strony bede miec pusty formularz, bo localstorage zostalo wyczyszczone
   e.preventDefault();
-  console.log(localStorage.getItem('feedback-form-state')); //obiekt z danymi w konsoli
+  console.log(JSON.parse(localStorage.getItem('feedback-form-state'))); //obiekt z danymi w konsoli, e-mail i message nie jest stringiem dzieki json.parse
   form.reset(); //czyszczenie formularza po submit
-  localStorage.clear(); //czyszczenie localStorage po submit
+  // localStorage.clear(); //czyszczenie localStorage po submit - ale wyczyści CAŁY storage
+  localStorage.removeItem('feedback-form-state'); //wyczysci tylko storage z formularza
 });
